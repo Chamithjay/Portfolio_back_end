@@ -9,6 +9,12 @@ import usertRoutes from './routes/user.js';
 import contactRoutes from './routes/contact.js';
 
 const app = express();
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN,  // Use the environment variable for the frontend URL
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+  };
+  
 
 
 app.use(cors());
