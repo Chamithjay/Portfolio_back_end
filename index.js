@@ -14,7 +14,6 @@ app.get("/", (req, res) => {
   res.send("Hello, Vercel!");
 });
 
-module.exports = app;
 const corsOptions = {
   origin: process.env.CORS_ORIGIN, // Use the environment variable for the frontend URL
   methods: "GET,POST,PUT,DELETE",
