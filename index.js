@@ -10,10 +10,6 @@ import contactRoutes from "./routes/contact.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello, Vercel!");
-});
-
 const corsOptions = {
   origin: process.env.CORS_ORIGIN, // Use the environment variable for the frontend URL
   methods: "GET,POST,PUT,DELETE",
@@ -22,6 +18,10 @@ const corsOptions = {
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
+
+app.get("/", (req, res) => {
+  res.send("BackEnd Server is running");
+});
 
 app.use("/projects", projectRoutes);
 app.use("/skills", skilltRoutes);
