@@ -16,7 +16,7 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 
 app.get("/", (req, res) => {
