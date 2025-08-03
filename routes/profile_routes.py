@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from typing import List, Optional
-from services.profile_services import save_profile, update_profile
+from services.profile_services import save_profile, update_profile, get_profile
 from models.profile_model import ProfileBase
 
 router = APIRouter()
@@ -38,5 +38,14 @@ async def partially_update_profile(
     try:
         profile = await update_profile(name, area_of_interest, github, linkedin, email, phone, photo, cv)
         return profile
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/profile", response_model=ProfileBase)
+async def read_profile():
+    try:
+        return await get_profile()
+    except HTTPException as e:
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

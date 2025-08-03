@@ -2,27 +2,19 @@ import base64
 from database import get_profile_info_collection
 from models.profile_model import ProfileBase
 from typing import Optional, List
-from fastapi import UploadFile
+from fastapi import UploadFile, HTTPException
 
 async def encode_file_to_base64(file: UploadFile) -> str:
     content = await file.read()
     return base64.b64encode(content).decode("utf-8")
 
 # Create or replace full profile
-async def save_profile(
-    name: str,
-    area_of_interest: List[str],
-    github: Optional[str],
-    linkedin: Optional[str],
-    email: Optional[str],
-    phone: Optional[str],
-    photo: UploadFile,
-    cv: UploadFile
-) -> ProfileBase:
+async def save_profile(name, area_of_interest, github, linkedin, email, phone, photo, cv) -> ProfileBase:
     photo_base64 = await encode_file_to_base64(photo)
     cv_base64 = await encode_file_to_base64(cv)
 
     profile_doc = {
+        "_id": "profile",  
         "name": name,
         "area_of_interest": area_of_interest,
         "github": github,
@@ -34,7 +26,7 @@ async def save_profile(
     }
 
     collection = get_profile_info_collection()
-    await collection.replace_one({}, profile_doc, upsert=True)
+    await collection.replace_one({"_id": "profile"}, profile_doc, upsert=True)
 
     return ProfileBase(**profile_doc)
 
@@ -76,3 +68,16 @@ async def update_profile(
 
     updated = await collection.find_one({})
     return ProfileBase(**updated)
+
+
+async def get_profile() -> ProfileBase:
+    collection = get_profile_info_collection()
+    profile = await collection.find_one({"_id": "profile"})
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    # Remove MongoDB internal ID if not in model
+    profile.pop("_id", None)
+
+    return ProfileBase(**profile)
