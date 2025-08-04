@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import close_mongo_connection, connect_to_mongo
-from routes import auth_routes, profile_routes, skill_routes
+from routes import auth_routes, profile_routes, skill_routes, project_routes
 
 app = FastAPI()
 
@@ -16,3 +16,4 @@ async def shutdown_event():
 app.include_router(auth_routes.router, prefix="", tags=["auth"])
 app.include_router(profile_routes.router, prefix="", tags=["profile"])
 app.include_router(skill_routes.router, prefix="", tags=["skills"])
+app.include_router(project_routes.router, prefix="", tags=["projects"])
