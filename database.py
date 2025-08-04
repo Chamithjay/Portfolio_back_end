@@ -40,3 +40,9 @@ def get_profile_info_collection():
         return db_instance.db["profile_info"]
     else:
         raise Exception("Database connection not established.")
+
+def get_skill_collection():
+    if db_instance.db is not None:
+        return db_instance.db["skills"]
+    else:
+        raise Exception("Database connection not established.")

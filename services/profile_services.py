@@ -8,7 +8,6 @@ async def encode_file_to_base64(file: UploadFile) -> str:
     content = await file.read()
     return base64.b64encode(content).decode("utf-8")
 
-# Create or replace full profile
 async def save_profile(name, area_of_interest, github, linkedin, email, phone, photo, cv) -> ProfileBase:
     photo_base64 = await encode_file_to_base64(photo)
     cv_base64 = await encode_file_to_base64(cv)
@@ -77,7 +76,6 @@ async def get_profile() -> ProfileBase:
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
-    # Remove MongoDB internal ID if not in model
     profile.pop("_id", None)
 
     return ProfileBase(**profile)
