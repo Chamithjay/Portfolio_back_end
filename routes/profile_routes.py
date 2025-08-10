@@ -46,7 +46,7 @@ async def partially_update_profile(
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/profile", response_model=ProfileBase)
-async def read_profile(current_user: User = Depends(get_current_user)):
+async def read_profile():
     try:
         return await get_profile()
     except HTTPException as e:

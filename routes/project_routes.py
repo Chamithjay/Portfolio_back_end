@@ -22,5 +22,5 @@ async def remove_project(title: str, current_user: User = Depends(get_current_us
     return await delete_project(title)
 
 @router.get("/projects", response_model=List[Project])
-async def fetch_projects(current_user: User = Depends(get_current_user)):
+async def fetch_projects():
     return await get_all_projects()

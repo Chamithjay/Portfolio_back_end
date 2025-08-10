@@ -31,5 +31,5 @@ async def remove_skill(category_name: str, skill_name: str, current_user: User =
     return await delete_skill(category_name, skill_name)
 
 @router.get("/skills", response_model=List[SkillCategory])
-async def fetch_all_skills(current_user: User = Depends(get_current_user)):
+async def fetch_all_skills():
     return await get_all_skills()
